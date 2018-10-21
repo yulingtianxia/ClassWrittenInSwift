@@ -20,5 +20,5 @@ deploy:
   file: ClassWrittenInSwiftKit.framework.zip
   skip_cleanup: true
   on:
-    repo: yulingtianxia/TBUIAutoTest
+    repo: yulingtianxia/ClassWrittenInSwift
     tags: true
