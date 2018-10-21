@@ -8,4 +8,4 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/yulingtianxia.svg?style=social&label=Follow)](https://twitter.com/yulingtianxia)
 
 # ClassWrittenInSwift
-Check If a Class is written in Swift.
+Something for Class written in Swift.
