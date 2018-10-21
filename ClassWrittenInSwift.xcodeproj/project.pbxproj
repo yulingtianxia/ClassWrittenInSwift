@@ -14,7 +14,35 @@
 		A4CFC35F217C88E000CF8863 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4CFC35D217C88E000CF8863 /* LaunchScreen.storyboard */; };
 		A4CFC36D217C99BC00CF8863 /* ClassWrittenInSwift.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4CFC36C217C99BC00CF8863 /* ClassWrittenInSwift.mm */; };
 		A4CFC371217C9D7900CF8863 /* CheckIfSwiftClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4CFC370217C9D7900CF8863 /* CheckIfSwiftClass.mm */; };
+		A4CFC37B217CA58200CF8863 /* ClassWrittenInSwiftKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4CFC379217CA58200CF8863 /* ClassWrittenInSwiftKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4CFC37E217CA58200CF8863 /* ClassWrittenInSwiftKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */; };
+		A4CFC37F217CA58200CF8863 /* ClassWrittenInSwiftKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A4CFC384217CA5A700CF8863 /* ClassWrittenInSwift.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4CFC36C217C99BC00CF8863 /* ClassWrittenInSwift.mm */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A4CFC37C217CA58200CF8863 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A4CFC349217C88DD00CF8863 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A4CFC376217CA58200CF8863;
+			remoteInfo = ClassWrittenInSwiftKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A4CFC383217CA58200CF8863 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A4CFC37F217CA58200CF8863 /* ClassWrittenInSwiftKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A4CFC351217C88DD00CF8863 /* ClassWrittenInSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassWrittenInSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -29,10 +57,21 @@
 		A4CFC36E217C9B5D00CF8863 /* ClassWrittenInSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClassWrittenInSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		A4CFC36F217C9D7900CF8863 /* CheckIfSwiftClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckIfSwiftClass.h; sourceTree = "<group>"; };
 		A4CFC370217C9D7900CF8863 /* CheckIfSwiftClass.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CheckIfSwiftClass.mm; sourceTree = "<group>"; };
+		A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClassWrittenInSwiftKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4CFC379217CA58200CF8863 /* ClassWrittenInSwiftKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassWrittenInSwiftKit.h; sourceTree = "<group>"; };
+		A4CFC37A217CA58200CF8863 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A4CFC34E217C88DD00CF8863 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4CFC37E217CA58200CF8863 /* ClassWrittenInSwiftKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A4CFC374217CA58200CF8863 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -46,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				A4CFC353217C88DD00CF8863 /* ClassWrittenInSwift */,
+				A4CFC378217CA58200CF8863 /* ClassWrittenInSwiftKit */,
 				A4CFC352217C88DD00CF8863 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				A4CFC351217C88DD00CF8863 /* ClassWrittenInSwift.app */,
+				A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -85,7 +126,27 @@
 			path = ../Source;
 			sourceTree = "<group>";
 		};
+		A4CFC378217CA58200CF8863 /* ClassWrittenInSwiftKit */ = {
+			isa = PBXGroup;
+			children = (
+				A4CFC379217CA58200CF8863 /* ClassWrittenInSwiftKit.h */,
+				A4CFC37A217CA58200CF8863 /* Info.plist */,
+			);
+			path = ClassWrittenInSwiftKit;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		A4CFC372217CA58200CF8863 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4CFC37B217CA58200CF8863 /* ClassWrittenInSwiftKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		A4CFC350217C88DD00CF8863 /* ClassWrittenInSwift */ = {
@@ -95,15 +156,35 @@
 				A4CFC34D217C88DD00CF8863 /* Sources */,
 				A4CFC34E217C88DD00CF8863 /* Frameworks */,
 				A4CFC34F217C88DD00CF8863 /* Resources */,
+				A4CFC383217CA58200CF8863 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A4CFC37D217CA58200CF8863 /* PBXTargetDependency */,
 			);
 			name = ClassWrittenInSwift;
 			productName = ClassWrittenInSwift;
 			productReference = A4CFC351217C88DD00CF8863 /* ClassWrittenInSwift.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A4CFC376217CA58200CF8863 /* ClassWrittenInSwiftKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A4CFC380217CA58200CF8863 /* Build configuration list for PBXNativeTarget "ClassWrittenInSwiftKit" */;
+			buildPhases = (
+				A4CFC372217CA58200CF8863 /* Headers */,
+				A4CFC373217CA58200CF8863 /* Sources */,
+				A4CFC374217CA58200CF8863 /* Frameworks */,
+				A4CFC375217CA58200CF8863 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClassWrittenInSwiftKit;
+			productName = ClassWrittenInSwiftKit;
+			productReference = A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -118,6 +199,9 @@
 					A4CFC350217C88DD00CF8863 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
+					};
+					A4CFC376217CA58200CF8863 = {
+						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
@@ -135,6 +219,7 @@
 			projectRoot = "";
 			targets = (
 				A4CFC350217C88DD00CF8863 /* ClassWrittenInSwift */,
+				A4CFC376217CA58200CF8863 /* ClassWrittenInSwiftKit */,
 			);
 		};
 /* End PBXProject section */
@@ -147,6 +232,13 @@
 				A4CFC35F217C88E000CF8863 /* LaunchScreen.storyboard in Resources */,
 				A4CFC35C217C88E000CF8863 /* Assets.xcassets in Resources */,
 				A4CFC35A217C88DD00CF8863 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A4CFC375217CA58200CF8863 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,7 +256,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A4CFC373217CA58200CF8863 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4CFC384217CA5A700CF8863 /* ClassWrittenInSwift.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A4CFC37D217CA58200CF8863 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A4CFC376217CA58200CF8863 /* ClassWrittenInSwiftKit */;
+			targetProxy = A4CFC37C217CA58200CF8863 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A4CFC358217C88DD00CF8863 /* Main.storyboard */ = {
@@ -343,6 +451,60 @@
 			};
 			name = Release;
 		};
+		A4CFC381217CA58200CF8863 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = D3RCVUP6VH;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ClassWrittenInSwiftKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yulingtianxia.ClassWrittenInSwiftKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A4CFC382217CA58200CF8863 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = D3RCVUP6VH;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ClassWrittenInSwiftKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yulingtianxia.ClassWrittenInSwiftKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -360,6 +522,15 @@
 			buildConfigurations = (
 				A4CFC364217C88E000CF8863 /* Debug */,
 				A4CFC365217C88E000CF8863 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A4CFC380217CA58200CF8863 /* Build configuration list for PBXNativeTarget "ClassWrittenInSwiftKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4CFC381217CA58200CF8863 /* Debug */,
+				A4CFC382217CA58200CF8863 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
