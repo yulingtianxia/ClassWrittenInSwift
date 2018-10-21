@@ -15,5 +15,5 @@ FOUNDATION_EXPORT double ClassWrittenInSwiftKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char ClassWrittenInSwiftKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <ClassWrittenInSwiftKit/PublicHeader.h>
-#import <ClassWrittenInSwiftKit/ClassWrittenInSwiftKit.h>
+#import <ClassWrittenInSwiftKit/ClassWrittenInSwift.h>
 
