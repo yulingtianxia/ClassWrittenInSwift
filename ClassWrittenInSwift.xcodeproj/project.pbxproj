@@ -18,6 +18,7 @@
 		A4CFC37E217CA58200CF8863 /* ClassWrittenInSwiftKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */; };
 		A4CFC37F217CA58200CF8863 /* ClassWrittenInSwiftKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A4CFC384217CA5A700CF8863 /* ClassWrittenInSwift.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4CFC36C217C99BC00CF8863 /* ClassWrittenInSwift.mm */; };
+		A4CFC385217CAE1700CF8863 /* ClassWrittenInSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = A4CFC36B217C99BC00CF8863 /* ClassWrittenInSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4CFC385217CAE1700CF8863 /* ClassWrittenInSwift.h in Headers */,
 				A4CFC37B217CA58200CF8863 /* ClassWrittenInSwiftKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
