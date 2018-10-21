@@ -13,10 +13,12 @@ before_script:
 before_deploy:
 - carthage build --no-skip-current
 - carthage archive $FRAMEWORK_NAME
-script: xcodebuild -project ClassWrittenInSwift/ClassWrittenInSwift.xcodeproj -scheme ClassWrittenInSwift
-  -configuration Release -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+script: xcodebuild -project ClassWrittenInSwift/ClassWrittenInSwift.xcodeproj -scheme
+  ClassWrittenInSwift -configuration Release -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 deploy:
   provider: releases
+  api_key:
+    secure: SWnABObD3w9rL2wobaER6mpiyyP+IYc77aN+vPG48jbyH0mhhGTlGRgY6q/9i3Ui0panrq2WVmrOn08nePi4V9eTVYANdS67FWU2P01XHWq2l1/wV0yiAxvXsZggyV6S4ChgPi+2yJGeFvvX1XS9jyI1V5KZCrJCwbyVx1W0VkKu8dJSaXqHcx7StOrFsQDe/wDJwa+XKLoRRtumovKG9ptPjuAEI2sm0rqAU4wso5gRDkfRFh79iRcNvw6tcSJ0fS+YFkZ99cFNGvuKTuwydg1Tu2l+NJsuy77eohQWMyyuJul3XO3hPAPgve20rNRa/RS6LUoM8jJjI1zx5fZ6TtiKS4FRVKbDUh9Yj/PMr/FB+Jh1MYsBuH+Wing8DLHxDZxI7fjqbHIFJ2aTZ+jL3RLXB3/UsHNQ/M8i0SSNKe2rOhugpNp5ZjSYrH8aeDwYMv8y94oZp0hAObYFDx2tkf5KCFkuf7xhT2QFKp+Oo2Q71xjZWYr+zutqLgQdXi59ntvca+S38svArC/zYve17d71xPcBXJ2eDJTf8BV+8/cZKGdkq7U5o4xxrk89nseUlMegWV2iucb6jQ3bgWzHOBc3K8l/FlCYe1I/7nlKw6goOsNxF6Fu2dwbzkPp5hK4UlK3KrYX5+zuKcCUwUE7X36UArT5VEo7DBg3DdrFh3k=
   file: ClassWrittenInSwiftKit.framework.zip
   skip_cleanup: true
   on:
