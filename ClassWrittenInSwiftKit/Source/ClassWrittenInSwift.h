@@ -10,6 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-BOOL isWrittenInSwift(Class cls);
+@interface ClassWrittenInSwift : NSObject
+
++ (BOOL)isSwiftClass:(Class)cls;
++ (NSArray<NSString *> *)lazyPropertyNamesOfSwiftClass:(Class)cls;
+
+@end
 
 NS_ASSUME_NONNULL_END

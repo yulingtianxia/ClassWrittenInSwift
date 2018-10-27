@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import ClassWrittenInSwiftKit
 
 class ViewController: UIViewController {
-
+    lazy var iamLazy = "LazyBoy"
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        CheckIfSwiftClass.check();
+        let isSwift = ClassWrittenInSwift.isSwiftClass(type(of: self))
+        print("\(type(of: self)) isSwift: \(isSwift)")
+        let name = ClassWrittenInSwift.lazyPropertyNames(ofSwiftClass: type(of: self))
+        print("lazyPropertyNames: \(name)")
     }
-    
 }
-

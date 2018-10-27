@@ -7,7 +7,6 @@
 //
 
 #import "ClassWrittenInSwift.h"
-
 #include <objc/runtime.h>
 
 union yxy_isa_t
@@ -155,7 +154,7 @@ struct yxy_objc_class : yxy_objc_object {
 
 BOOL isWrittenInSwift(Class cls)
 {
-    if (!cls) {
+    if (!cls || !object_isClass(cls)) {
         return NO;
     }
     struct yxy_objc_class *objc_cls = (__bridge struct yxy_objc_class *)cls;
@@ -163,3 +162,31 @@ BOOL isWrittenInSwift(Class cls)
     return isSwift;
 }
 
+@implementation ClassWrittenInSwift
+
++ (BOOL)isSwiftClass:(Class)cls
+{
+    return isWrittenInSwift(cls);
+}
+
++ (NSArray<NSString *> *)lazyPropertyNamesOfSwiftClass:(Class)cls
+{
+    if (!cls || !object_isClass(cls)) {
+        return nil;
+    }
+    unsigned int numIvars = 0;
+    NSString *key=nil;
+    Ivar *ivars = class_copyIvarList(cls, &numIvars);
+    NSMutableArray<NSString *> *result = [NSMutableArray array];
+    for(int i = 0; i < numIvars; i ++) {
+        Ivar thisIvar = ivars[i];
+        key = [NSString stringWithUTF8String:ivar_getName(thisIvar)];
+        if ([key hasSuffix:@".storage"]) {
+            [result addObject:[key componentsSeparatedByString:@"."].firstObject];
+        }
+    }
+    free(ivars);
+    return [result copy];
+}
+
+@end

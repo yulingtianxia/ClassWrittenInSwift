@@ -12,8 +12,6 @@
 		A4CFC35A217C88DD00CF8863 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4CFC358217C88DD00CF8863 /* Main.storyboard */; };
 		A4CFC35C217C88E000CF8863 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4CFC35B217C88E000CF8863 /* Assets.xcassets */; };
 		A4CFC35F217C88E000CF8863 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4CFC35D217C88E000CF8863 /* LaunchScreen.storyboard */; };
-		A4CFC36D217C99BC00CF8863 /* ClassWrittenInSwift.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4CFC36C217C99BC00CF8863 /* ClassWrittenInSwift.mm */; };
-		A4CFC371217C9D7900CF8863 /* CheckIfSwiftClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4CFC370217C9D7900CF8863 /* CheckIfSwiftClass.mm */; };
 		A4CFC37B217CA58200CF8863 /* ClassWrittenInSwiftKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A4CFC379217CA58200CF8863 /* ClassWrittenInSwiftKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4CFC37E217CA58200CF8863 /* ClassWrittenInSwiftKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */; };
 		A4CFC37F217CA58200CF8863 /* ClassWrittenInSwiftKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -56,8 +54,6 @@
 		A4CFC36B217C99BC00CF8863 /* ClassWrittenInSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassWrittenInSwift.h; sourceTree = "<group>"; };
 		A4CFC36C217C99BC00CF8863 /* ClassWrittenInSwift.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ClassWrittenInSwift.mm; sourceTree = "<group>"; };
 		A4CFC36E217C9B5D00CF8863 /* ClassWrittenInSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClassWrittenInSwift-Bridging-Header.h"; sourceTree = "<group>"; };
-		A4CFC36F217C9D7900CF8863 /* CheckIfSwiftClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckIfSwiftClass.h; sourceTree = "<group>"; };
-		A4CFC370217C9D7900CF8863 /* CheckIfSwiftClass.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CheckIfSwiftClass.mm; sourceTree = "<group>"; };
 		A4CFC377217CA58200CF8863 /* ClassWrittenInSwiftKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClassWrittenInSwiftKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4CFC379217CA58200CF8863 /* ClassWrittenInSwiftKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassWrittenInSwiftKit.h; sourceTree = "<group>"; };
 		A4CFC37A217CA58200CF8863 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -103,11 +99,8 @@
 		A4CFC353217C88DD00CF8863 /* ClassWrittenInSwift */ = {
 			isa = PBXGroup;
 			children = (
-				A4CFC366217C95A000CF8863 /* Source */,
 				A4CFC354217C88DD00CF8863 /* AppDelegate.swift */,
 				A4CFC356217C88DD00CF8863 /* ViewController.swift */,
-				A4CFC36F217C9D7900CF8863 /* CheckIfSwiftClass.h */,
-				A4CFC370217C9D7900CF8863 /* CheckIfSwiftClass.mm */,
 				A4CFC358217C88DD00CF8863 /* Main.storyboard */,
 				A4CFC35B217C88E000CF8863 /* Assets.xcassets */,
 				A4CFC36E217C9B5D00CF8863 /* ClassWrittenInSwift-Bridging-Header.h */,
@@ -123,13 +116,13 @@
 				A4CFC36B217C99BC00CF8863 /* ClassWrittenInSwift.h */,
 				A4CFC36C217C99BC00CF8863 /* ClassWrittenInSwift.mm */,
 			);
-			name = Source;
-			path = ../Source;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		A4CFC378217CA58200CF8863 /* ClassWrittenInSwiftKit */ = {
 			isa = PBXGroup;
 			children = (
+				A4CFC366217C95A000CF8863 /* Source */,
 				A4CFC379217CA58200CF8863 /* ClassWrittenInSwiftKit.h */,
 				A4CFC37A217CA58200CF8863 /* Info.plist */,
 			);
@@ -253,8 +246,6 @@
 			files = (
 				A4CFC357217C88DD00CF8863 /* ViewController.swift in Sources */,
 				A4CFC355217C88DD00CF8863 /* AppDelegate.swift in Sources */,
-				A4CFC371217C9D7900CF8863 /* CheckIfSwiftClass.mm in Sources */,
-				A4CFC36D217C99BC00CF8863 /* ClassWrittenInSwift.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
