@@ -9,3 +9,6 @@
 
 # ClassWrittenInSwift
 Something for Class written in Swift.
+
+- [x] Check if Class is written in Swift
+- [x] Swift Class lazy property name.
