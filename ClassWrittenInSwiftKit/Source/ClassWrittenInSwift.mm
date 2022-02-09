@@ -8,169 +8,206 @@
 
 #import "ClassWrittenInSwift.h"
 #include <objc/runtime.h>
-
-union yxy_isa_t
-{
-    yxy_isa_t() { }
-    yxy_isa_t(uintptr_t value) : bits(value) { }
-    
-    Class cls;
-    uintptr_t bits;
-    
-#if SUPPORT_PACKED_ISA
-    
-    // extra_rc must be the MSB-most field (so it matches carry/overflow flags)
-    // nonpointer must be the LSB (fixme or get rid of it)
-    // shiftcls must occupy the same bits that a real class pointer would
-    // bits + RC_ONE is equivalent to extra_rc + 1
-    // RC_HALF is the high bit of extra_rc (i.e. half of its range)
-    
-    // future expansion:
-    // uintptr_t fast_rr : 1;     // no r/r overrides
-    // uintptr_t lock : 2;        // lock for atomic property, @synch
-    // uintptr_t extraBytes : 1;  // allocated with extra bytes
-    
-# if __arm64__
-#   define ISA_MASK        0x0000000ffffffff8ULL
-#   define ISA_MAGIC_MASK  0x000003f000000001ULL
-#   define ISA_MAGIC_VALUE 0x000001a000000001ULL
-    struct {
-        uintptr_t nonpointer        : 1;
-        uintptr_t has_assoc         : 1;
-        uintptr_t has_cxx_dtor      : 1;
-        uintptr_t shiftcls          : 33; // MACH_VM_MAX_ADDRESS 0x1000000000
-        uintptr_t magic             : 6;
-        uintptr_t weakly_referenced : 1;
-        uintptr_t deallocating      : 1;
-        uintptr_t has_sidetable_rc  : 1;
-        uintptr_t extra_rc          : 19;
-#       define RC_ONE   (1ULL<<45)
-#       define RC_HALF  (1ULL<<18)
-    };
-    
-# elif __x86_64__
-#   define ISA_MASK        0x00007ffffffffff8ULL
-#   define ISA_MAGIC_MASK  0x001f800000000001ULL
-#   define ISA_MAGIC_VALUE 0x001d800000000001ULL
-    struct {
-        uintptr_t nonpointer        : 1;
-        uintptr_t has_assoc         : 1;
-        uintptr_t has_cxx_dtor      : 1;
-        uintptr_t shiftcls          : 44; // MACH_VM_MAX_ADDRESS 0x7fffffe00000
-        uintptr_t magic             : 6;
-        uintptr_t weakly_referenced : 1;
-        uintptr_t deallocating      : 1;
-        uintptr_t has_sidetable_rc  : 1;
-        uintptr_t extra_rc          : 8;
-#       define RC_ONE   (1ULL<<56)
-#       define RC_HALF  (1ULL<<7)
-    };
-    
-# else
-#   error unknown architecture for packed isa
-# endif
-    
-    // SUPPORT_PACKED_ISA
-#endif
-    
-    
-#if SUPPORT_INDEXED_ISA
-    
-# if  __ARM_ARCH_7K__ >= 2
-    
-#   define ISA_INDEX_IS_NPI      1
-#   define ISA_INDEX_MASK        0x0001FFFC
-#   define ISA_INDEX_SHIFT       2
-#   define ISA_INDEX_BITS        15
-#   define ISA_INDEX_COUNT       (1 << ISA_INDEX_BITS)
-#   define ISA_INDEX_MAGIC_MASK  0x001E0001
-#   define ISA_INDEX_MAGIC_VALUE 0x001C0001
-    struct {
-        uintptr_t nonpointer        : 1;
-        uintptr_t has_assoc         : 1;
-        uintptr_t indexcls          : 15;
-        uintptr_t magic             : 4;
-        uintptr_t has_cxx_dtor      : 1;
-        uintptr_t weakly_referenced : 1;
-        uintptr_t deallocating      : 1;
-        uintptr_t has_sidetable_rc  : 1;
-        uintptr_t extra_rc          : 7;
-#       define RC_ONE   (1ULL<<25)
-#       define RC_HALF  (1ULL<<6)
-    };
-    
-# else
-#   error unknown architecture for indexed isa
-# endif
-    
-    // SUPPORT_INDEXED_ISA
-#endif
-    
-};
-
-struct yxy_objc_object {
-    yxy_isa_t isa;
-};
+#include <atomic>
 
 #if __LP64__
-typedef uint32_t yxy_mask_t;  // x86_64 & arm64 asm are less efficient with 16-bits
+typedef uint32_t mask_t;  // x86_64 & arm64 asm are less efficient with 16-bits
 #else
-typedef uint16_t yxy_mask_t;
+typedef uint16_t mask_t;
 #endif
-typedef uintptr_t yxy_cache_key_t;
 
-struct yxy_bucket_t {
-    yxy_cache_key_t _key;
-    IMP _imp;
+/* dyld_shared_cache_builder and obj-C agree on these definitions */
+struct preopt_cache_entry_t {
+    uint32_t sel_offs;
+    uint32_t imp_offs;
 };
 
-struct yxy_cache_t {
-    struct yxy_bucket_t *_buckets;
-    yxy_mask_t _mask;
-    yxy_mask_t _occupied;
+/* dyld_shared_cache_builder and obj-C agree on these definitions */
+struct preopt_cache_t {
+    int32_t  fallback_class_offset;
+    union {
+        struct {
+            uint16_t shift       :  5;
+            uint16_t mask        : 11;
+        };
+        uint16_t hash_params;
+    };
+    uint16_t occupied    : 14;
+    uint16_t has_inlines :  1;
+    uint16_t bit_one     :  1;
+    preopt_cache_entry_t entries[];
+
+    inline int capacity() const {
+        return mask + 1;
+    }
 };
 
-// class is a Swift class
-#define FAST_IS_SWIFT         (1UL<<0)
+// Version of std::atomic that does not allow implicit conversions
+// to/from the wrapped type, and requires an explicit memory order
+// be passed to load() and store().
+template <typename T>
+struct explicit_atomic : public std::atomic<T> {
+    explicit explicit_atomic(T initial) noexcept : std::atomic<T>(std::move(initial)) {}
+    operator T() const = delete;
+    
+    T load(std::memory_order order) const noexcept {
+        return std::atomic<T>::load(order);
+    }
+    void store(T desired, std::memory_order order) noexcept {
+        std::atomic<T>::store(desired, order);
+    }
+    
+    // Convert a normal pointer to an atomic pointer. This is a
+    // somewhat dodgy thing to do, but if the atomic type is lock
+    // free and the same size as the non-atomic type, we know the
+    // representations are the same, and the compiler generates good
+    // code.
+    static explicit_atomic<T> *from_pointer(T *ptr) {
+        static_assert(sizeof(explicit_atomic<T> *) == sizeof(T *),
+                      "Size of atomic must match size of original");
+        explicit_atomic<T> *atomic = (explicit_atomic<T> *)ptr;
+        ASSERT(atomic->is_lock_free());
+        return atomic;
+    }
+};
 
-struct yxy_class_data_bits_t {
+struct cache_t {
+private:
+    explicit_atomic<uintptr_t> _bucketsAndMaybeMask;
+    union {
+        struct {
+            explicit_atomic<mask_t>    _maybeMask;
+#if __LP64__
+            uint16_t                   _flags;
+#endif
+            uint16_t                   _occupied;
+        };
+        explicit_atomic<preopt_cache_t *> _originalPreoptCache;
+    };
+
+#if CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_OUTLINED
+    // _bucketsAndMaybeMask is a buckets_t pointer
+    // _maybeMask is the buckets mask
+
+    static constexpr uintptr_t bucketsMask = ~0ul;
+#elif CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_HIGH_16_BIG_ADDRS
+    static constexpr uintptr_t maskShift = 48;
+    static constexpr uintptr_t maxMask = ((uintptr_t)1 << (64 - maskShift)) - 1;
+    static constexpr uintptr_t bucketsMask = ((uintptr_t)1 << maskShift) - 1;
+    
+    static_assert(bucketsMask >= MACH_VM_MAX_ADDRESS, "Bucket field doesn't have enough bits for arbitrary pointers.");
+#if CONFIG_USE_PREOPT_CACHES
+    static constexpr uintptr_t preoptBucketsMarker = 1ul;
+    static constexpr uintptr_t preoptBucketsMask = bucketsMask & ~preoptBucketsMarker;
+#endif
+#elif CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_HIGH_16
+    // _bucketsAndMaybeMask is a buckets_t pointer in the low 48 bits
+    // _maybeMask is unused, the mask is stored in the top 16 bits.
+
+    // How much the mask is shifted by.
+    static constexpr uintptr_t maskShift = 48;
+
+    // Additional bits after the mask which must be zero. msgSend
+    // takes advantage of these additional bits to construct the value
+    // `mask << 4` from `_maskAndBuckets` in a single instruction.
+    static constexpr uintptr_t maskZeroBits = 4;
+
+    // The largest mask value we can store.
+    static constexpr uintptr_t maxMask = ((uintptr_t)1 << (64 - maskShift)) - 1;
+    
+    // The mask applied to `_maskAndBuckets` to retrieve the buckets pointer.
+    static constexpr uintptr_t bucketsMask = ((uintptr_t)1 << (maskShift - maskZeroBits)) - 1;
+    
+    // Ensure we have enough bits for the buckets pointer.
+    static_assert(bucketsMask >= MACH_VM_MAX_ADDRESS,
+            "Bucket field doesn't have enough bits for arbitrary pointers.");
+
+#if CONFIG_USE_PREOPT_CACHES
+    static constexpr uintptr_t preoptBucketsMarker = 1ul;
+#if __has_feature(ptrauth_calls)
+    // 63..60: hash_mask_shift
+    // 59..55: hash_shift
+    // 54.. 1: buckets ptr + auth
+    //      0: always 1
+    static constexpr uintptr_t preoptBucketsMask = 0x007ffffffffffffe;
+    static inline uintptr_t preoptBucketsHashParams(const preopt_cache_t *cache) {
+        uintptr_t value = (uintptr_t)cache->shift << 55;
+        // masks have 11 bits but can be 0, so we compute
+        // the right shift for 0x7fff rather than 0xffff
+        return value | ((objc::mask16ShiftBits(cache->mask) - 1) << 60);
+    }
+#else
+    // 63..53: hash_mask
+    // 52..48: hash_shift
+    // 47.. 1: buckets ptr
+    //      0: always 1
+    static constexpr uintptr_t preoptBucketsMask = 0x0000fffffffffffe;
+    static inline uintptr_t preoptBucketsHashParams(const preopt_cache_t *cache) {
+        return (uintptr_t)cache->hash_params << 48;
+    }
+#endif
+#endif // CONFIG_USE_PREOPT_CACHES
+#elif CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_LOW_4
+    // _bucketsAndMaybeMask is a buckets_t pointer in the top 28 bits
+    // _maybeMask is unused, the mask length is stored in the low 4 bits
+
+    static constexpr uintptr_t maskBits = 4;
+    static constexpr uintptr_t maskMask = (1 << maskBits) - 1;
+    static constexpr uintptr_t bucketsMask = ~maskMask;
+    static_assert(!CONFIG_USE_PREOPT_CACHES, "preoptimized caches not supported");
+#else
+#error Unknown cache mask storage type.
+#endif
+};
+
+// class is a Swift class from the pre-stable Swift ABI
+#define FAST_IS_SWIFT_LEGACY    (1UL<<0)
+// class is a Swift class from the stable Swift ABI
+#define FAST_IS_SWIFT_STABLE    (1UL<<1)
+
+struct class_data_bits_t {
     // Values are the FAST_ flags above.
     uintptr_t bits;
-    bool getBit(uintptr_t bit)
-    {
+    bool getBit(uintptr_t bit) {
         return bits & bit;
     }
-    bool isSwift() {
-        return getBit(FAST_IS_SWIFT);
+    
+    bool isAnySwift() {
+        return isSwiftStable() || isSwiftLegacy();
+    }
+
+    bool isSwiftStable() {
+        return getBit(FAST_IS_SWIFT_STABLE);
+    }
+
+    bool isSwiftLegacy() {
+        return getBit(FAST_IS_SWIFT_LEGACY);
     }
 };
 
-struct yxy_objc_class : yxy_objc_object {
+struct objc_class : objc_object {
     // Class ISA;
     Class superclass;
-    yxy_cache_t cache;             // formerly cache pointer and vtable
-    yxy_class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags
+    cache_t cache;             // formerly cache pointer and vtable
+    class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags
 };
 
-BOOL isWrittenInSwift(Class cls)
-{
+BOOL isWrittenInSwift(Class cls) {
     if (!cls || !object_isClass(cls)) {
         return NO;
     }
-    struct yxy_objc_class *objc_cls = (__bridge struct yxy_objc_class *)cls;
-    bool isSwift = objc_cls->bits.isSwift();
+    struct objc_class *objc_cls = (__bridge struct objc_class *)cls;
+    bool isSwift = objc_cls->bits.isAnySwift();
     return isSwift;
 }
 
 @implementation ClassWrittenInSwift
 
-+ (BOOL)isSwiftClass:(Class)cls
-{
++ (BOOL)isSwiftClass:(Class)cls {
     return isWrittenInSwift(cls);
 }
 
-+ (NSArray<NSString *> *)lazyPropertyNamesOfSwiftClass:(Class)cls
-{
++ (NSArray<NSString *> *)lazyPropertyNamesOfSwiftClass:(Class)cls {
     if (!cls || !object_isClass(cls)) {
         return nil;
     }
@@ -183,6 +220,9 @@ BOOL isWrittenInSwift(Class cls)
         key = [NSString stringWithUTF8String:ivar_getName(thisIvar)];
         if ([key hasSuffix:@".storage"]) {
             [result addObject:[key componentsSeparatedByString:@"."].firstObject];
+        }
+        if ([key hasPrefix:@"$__lazy_storage_$_"]) {
+            [result addObject:[key substringFromIndex:18]];
         }
     }
     free(ivars);
