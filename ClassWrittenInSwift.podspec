@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name         = "ClassWrittenInSwift"
-s.version      = "0.0.3"
+s.version      = "0.0.4"
 s.summary      = "Something for Class  written in Swift."
 s.description  = <<-DESC
 Check If a Class is written in Swift.
@@ -17,7 +17,7 @@ s.ios.deployment_target = '8.0'
 s.osx.deployment_target = '10.11'
 s.requires_arc = true
 
-s.source_files = "ClassWrittenInSwiftKit/Source/*.{h,m}"
+s.source_files = "ClassWrittenInSwiftKit/Source/*.{h,m,mm}"
 s.public_header_files = "ClassWrittenInSwiftKit/Source/ClassWrittenInSwift.h"
 s.frameworks = 'Foundation'
 
