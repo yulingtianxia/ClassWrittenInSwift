@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ClassWrittenInSwift : NSObject
 
 + (BOOL)isSwiftClass:(Class)cls;
-+ (NSArray<NSString *> *)lazyPropertyNamesOfSwiftClass:(Class)cls;
++ (nullable NSArray<NSString *> *)lazyPropertyNamesOfSwiftClass:(Class)cls;
 
 @end
 

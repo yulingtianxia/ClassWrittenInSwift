@@ -17,6 +17,6 @@ class ViewController: UIViewController {
         let isSwift = ClassWrittenInSwift.isSwiftClass(type(of: self))
         print("\(type(of: self)) isSwift: \(isSwift)")
         let name = ClassWrittenInSwift.lazyPropertyNames(ofSwiftClass: type(of: self))
-        print("lazyPropertyNames: \(name)")
+        print("lazyPropertyNames: \(String(describing: name))")
     }
 }

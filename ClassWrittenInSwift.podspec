@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name         = "ClassWrittenInSwift"
-s.version      = "0.0.4"
+s.version      = "0.0.5"
 s.summary      = "Something for Class  written in Swift."
 s.description  = <<-DESC
 Check If a Class is written in Swift.
@@ -13,7 +13,7 @@ s.author       = { "YangXiaoyu" => "yulingtianxia@gmail.com" }
 s.social_media_url = 'https://twitter.com/yulingtianxia'
 s.source       = { :git => "https://github.com/yulingtianxia/ClassWrittenInSwift.git", :tag => s.version.to_s }
 
-s.ios.deployment_target = '8.0'
+s.ios.deployment_target = '9.0'
 s.osx.deployment_target = '10.11'
 s.requires_arc = true
 
