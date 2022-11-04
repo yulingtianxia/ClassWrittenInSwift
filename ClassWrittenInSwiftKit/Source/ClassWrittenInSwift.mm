@@ -185,7 +185,7 @@ struct class_data_bits_t {
     }
 };
 
-struct objc_class : objc_object {
+struct yxy_objc_class : objc_object {
     // Class ISA;
     Class superclass;
     cache_t cache;             // formerly cache pointer and vtable
@@ -196,7 +196,7 @@ BOOL isWrittenInSwift(Class cls) {
     if (!cls || !object_isClass(cls)) {
         return NO;
     }
-    struct objc_class *objc_cls = (__bridge struct objc_class *)cls;
+    struct yxy_objc_class *objc_cls = (__bridge struct yxy_objc_class *)cls;
     bool isSwift = objc_cls->bits.isAnySwift();
     return isSwift;
 }
