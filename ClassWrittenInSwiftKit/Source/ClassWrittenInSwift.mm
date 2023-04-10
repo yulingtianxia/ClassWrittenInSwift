@@ -9,6 +9,7 @@
 #import "ClassWrittenInSwift.h"
 #include <objc/runtime.h>
 #include <atomic>
+#include <utility>
 
 #if __LP64__
 typedef uint32_t mask_t;  // x86_64 & arm64 asm are less efficient with 16-bits
