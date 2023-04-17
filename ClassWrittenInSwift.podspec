@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name         = "ClassWrittenInSwift"
-s.version      = "0.0.5"
+s.version      = "0.0.6"
 s.summary      = "Something for Class  written in Swift."
 s.description  = <<-DESC
 Check If a Class is written in Swift.
